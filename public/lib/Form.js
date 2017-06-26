@@ -16,10 +16,28 @@ const Form = Itav.Components.Form;
 Form.FormElement = {
     id: null,
     name: null,
+    model: {},
 
     setId: function setId(id) {
         this.id = id;
         return this;
+    },
+
+    setModel(model){
+        this.model = model;
+        console.log(model);
+        if (this.model.hasOwnProperty(this.name)) {
+            this.value = model[this.name];
+        }
+        return this;
+    },
+
+    setModelValue(value){
+        if (typeof this.model === 'object') {
+            if (this.model.hasOwnProperty(this.name)) {
+                this.model[this.name] = value;
+            }
+        }
     },
 
     setClass: function setClass(cls) {
@@ -53,6 +71,11 @@ Form.FormElement = {
 
     setName(name){
         this.name = name;
+        if (typeof this.model === 'object') {
+            if (this.model.hasOwnProperty(name)) {
+                this.value = this.model[name];
+            }
+        }
         return this;
     }
 };
@@ -103,7 +126,7 @@ Form.Input = Object.assign(Object.create(Form.FormElement), {
         return this;
     },
     setValue(value) {
-        this._value_ = value;
+        this.value = value;
         return this;
     },
     setLabel(label) {
@@ -164,6 +187,8 @@ Object.defineProperty(
         set: function (value) {
             this._value_ = value;
             this.setWidgetValue(value);
+            this.setModelValue(value);
+            console.log('ustawiam value');
         }
     }
 );
@@ -233,6 +258,9 @@ Form.Form = Object.assign(Object.create(Form.FormElement), {
     domOwner: null,
 
     addElement(elem){
+        if (!this.hasOwnProperty('elements')) {
+            this.elements = [];
+        }
         this.elements.push(elem);
         return this;
     },

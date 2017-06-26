@@ -2,7 +2,7 @@
  *
  * @type {InterestModel}
  */
-const InterestModel = Object.assign(Object.create(null), {
+const InterestModel = Object.assign(Object.create({}), {
 
     TYPE_SIMPLE: 1,
     TYPE_ADVANCED: 2,
@@ -58,7 +58,7 @@ const InterestModel = Object.assign(Object.create(null), {
     }
 });
 
-const PeriodModel = Object.assign(Object.create(null), {
+const PeriodModel = Object.assign(Object.create({}), {
     dateFrom: null,
     dateTo: null,
     rate: 0.00,
