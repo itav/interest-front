@@ -53,3 +53,5 @@ Itav.Components.Link = {
         return this;
     }
 };
+
+const Link = Itav.Components.Link;

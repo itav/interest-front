@@ -12,13 +12,48 @@ if (!Src.hasOwnProperty('Interest')) {
 Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
 
     index(){
-        return function view() {
-            const lnCalc = Object.create(Itav.Components.Link);
+        return function view(anchor) {
+            const lnCalc = Object.create(Link);
+            const lnPage = Object.create(Link);
             const interestForm = Src.Interest.Forms.getInterestForm(model);
-            const root = document.getElementById("app");
-            root.innerHTML = '';
-            interestForm.render(root);
-            lnCalc.createLink('/result', 'calc').render(root);
+            anchor.innerHTML = '';
+            interestForm.render(anchor);
+            lnCalc.createLink('/result', 'calc', `${pure.button.pure_button} ${pure.button.pure_button_success}`).render(anchor);
+            lnPage.createLink('/page', 'page', `${pure.button.pure_button} ${pure.button.pure_button_primary}`).render(anchor);
+            return anchor;
+        }
+    },
+
+    periodAdd(){
+        return function view(anchor) {
+            const div2 = document.createElement('div');
+            div2.appendChild(document.createTextNode('added ... '));
+            const delBtn = document.createElement('button');
+            delBtn.appendChild(document.createTextNode('del elem'));
+            div2.appendChild(delBtn);
+            anchor.appendChild(div2);
+            delBtn.addEventListener('click', function () {
+               anchor.removeChild(div2);
+            });
+            return anchor;
+        }
+    },
+
+    pageDouble(){
+        return function view(anchor) {
+            const lnCalc = Object.create(Link);
+            const addBtn = Object.create(Link);
+            anchor.innerHTML = '';
+            interestForm.render(anchor);
+            lnCalc.createLink('/', 'home').render(anchor);
+            addBtn.createLink('/period/add', 'add period', `${pure.button.pure_button_primary}`).render(anchor);
+            const div = document.createElement('div');
+            const btn = document.createElement('button');
+            btn.appendChild(document.createTextNode('add elem'));
+            anchor.appendChild(btn);
+            btn.addEventListener('click', function() {anchor.appendChild(App.run('/period/add', div));})
+            //anchor.appendChild(App.run('/result', div));
+            return anchor;
         }
     },
 
@@ -31,13 +66,23 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
             <p>TotalInterest: ${model.totalInterest}</p>
          `;
 
-        return function view() {
+        return function view(anchor) {
 
-            const root = document.getElementById("app");
-            root.innerHTML = template;
+            anchor.innerHTML = template;
+            const back = Object.create(Link);
+            back.createLink('/', 'home').render(anchor);
+            return anchor;
+        }
+    },
 
-            const back = Object.create(Itav.Components.Link);
-            back.createLink('/', 'home').render(root);
+    error(){
+
+        let template = `Sorry but error occurred!`;
+        return function view(anchor) {
+            anchor.innerHTML = template;
+            const back = Object.create(Link);
+            back.createLink('/', 'home').render(anchor);
+            return anchor;
         }
     }
 

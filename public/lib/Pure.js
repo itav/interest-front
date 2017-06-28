@@ -7,6 +7,10 @@ const pure = {
     },
     button: {
         pure_button: "pure-button",
-        pure_button_primary: "pure-button-primary"
+        pure_button_primary: "pure-button-primary",
+        pure_button_success: "pure-button-success",
+        pure_button_error: "pure-button-error",
+        pure_button_warning: "pure-button-warning",
+        pure_button_secondary: "pure-button-secondary"
     }
 };

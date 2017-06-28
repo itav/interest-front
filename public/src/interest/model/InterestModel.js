@@ -65,3 +65,18 @@ const PeriodModel = Object.assign(Object.create({}), {
     amount: 0.00,
     days: 0
 });
+
+
+Object.defineProperty(
+    InterestModel,
+    "rate",
+    {
+        get: function () {
+            return this._rate_;
+        },
+        set: function (value) {
+            this._rate_ = value;
+            console.log('ustawiam value Model' + this._rate_);
+        }
+    }
+);

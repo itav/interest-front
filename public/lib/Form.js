@@ -25,7 +25,6 @@ Form.FormElement = {
 
     setModel(model){
         this.model = model;
-        console.log(model);
         if (this.model.hasOwnProperty(this.name)) {
             this.value = model[this.name];
         }
