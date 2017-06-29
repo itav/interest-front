@@ -1,4 +1,6 @@
 const InterestCtrl = Src.Interest.Controller;
+const AuthCtrl = Src.Auth.Controller;
+
 
 const App = {
     routes: {
@@ -7,7 +9,11 @@ const App = {
             '/page': 'page',
             '/result': 'result',
             '/error': 'error',
-            '/period/add': 'period_add'
+            '/period/add': 'period_add',
+            '/auth/login': 'auth_login',
+            '/auth/logout': 'auth_logout',
+            '/auth/try': 'auth_try',
+            '/preload': 'preload'
 
         },
         home: {
@@ -29,7 +35,24 @@ const App = {
         error: {
             path: "/result",
             controller: InterestCtrl.error(),
+        },
+        auth_login: {
+            path: "/result",
+            controller: AuthCtrl.login(),
+        },
+        auth_logout: {
+            path: "/result",
+            controller: AuthCtrl.logout(),
+        },
+        auth_try: {
+            path: "/auth/try",
+            controller: AuthCtrl.tryLogin(),
+        },
+        preload: {
+            path: "/preload",
+            controller: InterestCtrl.preload(),
         }
+
     },
     view: null,
 
@@ -58,5 +81,4 @@ const App = {
 };
 
 const interestForm = Src.Interest.Forms.getInterestForm(model, false);
-
 App.run();

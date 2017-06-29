@@ -288,6 +288,9 @@ Form.Form = Object.assign(Object.create(Form.FormElement), {
         });
         widget.appendChild(fieldset);
         this.domElement = widget;
+        this.domElement.addEventListener('submit', function (event) {
+            event.preventDefault();
+        });
         return this;
     },
 

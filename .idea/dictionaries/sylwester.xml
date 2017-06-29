@@ -6,13 +6,17 @@
       <w>ismap</w>
       <w>maxlength</w>
       <w>onblur</w>
+      <w>onerror</w>
       <w>onfocus</w>
       <w>onload</w>
       <w>onselect</w>
       <w>palceholder</w>
+      <w>passwd</w>
       <w>placeholer</w>
+      <w>privs</w>
       <w>tabindex</w>
       <w>usemap</w>
+      <w>xhttp</w>
     </words>
   </dictionary>
 </component>

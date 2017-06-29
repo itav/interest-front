@@ -70,7 +70,9 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
 
             anchor.innerHTML = template;
             const back = Object.create(Link);
+            const login = Object.create(Link);
             back.createLink('/', 'home').render(anchor);
+            login.createLink('/auth/login', 'login', pure.button.pure_button_primary).render(anchor);
             return anchor;
         }
     },
@@ -78,6 +80,17 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
     error(){
 
         let template = `Sorry but error occurred!`;
+        return function view(anchor) {
+            anchor.innerHTML = template;
+            const back = Object.create(Link);
+            back.createLink('/', 'home').render(anchor);
+            return anchor;
+        }
+    },
+
+    preload(){
+
+        let template = `IIIIIIIIIIIIIII:::::::::::AMMMMMMMMMMM:::LOADING`;
         return function view(anchor) {
             anchor.innerHTML = template;
             const back = Object.create(Link);
