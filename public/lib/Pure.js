@@ -12,5 +12,12 @@ const pure = {
         pure_button_error: "pure-button-error",
         pure_button_warning: "pure-button-warning",
         pure_button_secondary: "pure-button-secondary"
+    },
+    menu: {
+        menu: 'pure-menu',
+        item: 'pure-menu-item',
+        link: 'pure-menu-link',
+        list: 'pure-menu-list',
+        heading: 'pure-menu-heading'
     }
 };

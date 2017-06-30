@@ -30,7 +30,7 @@ const Ajax = Object.assign(Object.create({}), {
                 }
             };
             xhttp.onerror = function () {
-                reject(Error('network problem'))
+                reject(Error('network problem'));
             };
             xhttp.send();
         })

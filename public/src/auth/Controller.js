@@ -35,6 +35,27 @@ Src.Auth.Controller = Object.assign(Object.create(Src.Auth), {
     },
     logout(){
         return function view(anchor) {
+            anchor.innerHTML = '';
+            const menu = Object.create(Menu);
+            const m1 = Object.create(MenuElement);
+            m1
+                .setLabel('menu1')
+                .setLink('/result');
+            const m2 = Object.create(MenuElement);
+            m2
+                .setLabel('menu2')
+                .setLink('/result');
+            const m3 = Object.create(MenuElement);
+            m3
+                .setLabel('menu3')
+                .setLink('/result');
+            menu
+                .addElement(m1)
+                .addElement(m2)
+                .addElement(m3)
+                .build();
+
+            anchor.appendChild(menu.domElement);
             return anchor;
         }
     },

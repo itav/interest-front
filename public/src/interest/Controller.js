@@ -71,8 +71,10 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
             anchor.innerHTML = template;
             const back = Object.create(Link);
             const login = Object.create(Link);
+            const logout = Object.create(Link);
             back.createLink('/', 'home').render(anchor);
             login.createLink('/auth/login', 'login', pure.button.pure_button_primary).render(anchor);
+            logout.createLink('/auth/logout', 'logout', pure.button.pure_button_primary).render(anchor);
             return anchor;
         }
     },
