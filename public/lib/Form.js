@@ -151,11 +151,12 @@ Form.Input = Object.assign(Object.create(Form.FormElement), {
         let wrap = document.createElement("div");
         wrap.classList.add(pure.form.pure_control_group);
 
-        widget.setAttribute("type", this.type);
-        widget.setAttribute("id", this.id);
-        widget.setAttribute("value", this._value_);
-        widget.setAttribute("placeholder", this.placeholder);
-        label.setAttribute("for", this.id);
+        widget.setAttribute('type', this.type);
+        widget.setAttribute('id', this.id);
+        widget.setAttribute('name', this.name);
+        widget.setAttribute('value', this.value);
+        widget.setAttribute('placeholder', this.placeholder);
+        label.setAttribute('for', this.id);
 
         label.appendChild(document.createTextNode(this.label));
         wrap.appendChild(label);
@@ -222,8 +223,10 @@ Form.Button = Object.assign(Object.create(Form.FormElement), {
         wrap.classList.add(pure.form.pure_control_group);
 
         widget.setAttribute("type", this.type);
-        widget.classList.add(pure.button.pure_button);
-        widget.classList.add(pure.button.pure_button_primary);
+        widget.setAttribute('name', this.name);
+        widget.setAttribute('value', this.value);
+        widget.classList.add(pure.button.button);
+        widget.classList.add(pure.button.primary);
         widget.appendChild(document.createTextNode(this.label));
 
         wrap.appendChild(label);
@@ -251,6 +254,7 @@ Form.Form = Object.assign(Object.create(Form.FormElement), {
     ENCTYPE_NORMAL: 'application/x-www-form-urlencoded',
 
     method: 'post',
+    enctype: 'application/x-www-form-urlencoded',
     action: '',
     elements: [],
     domElement: null,
@@ -274,11 +278,17 @@ Form.Form = Object.assign(Object.create(Form.FormElement), {
         return this;
     },
 
+    setEnctype(enctype){
+        this.enctype = enctype;
+        return this;
+    },
+
     build: function build() {
 
         const widget = document.createElement("form");
         const fieldset = document.createElement("fieldset");
 
+        widget.id = this.id;
         widget.classList.add(pure.form.pure_form);
         widget.classList.add(pure.form.pure_form_aligned);
         widget.setAttribute("method", this.method);

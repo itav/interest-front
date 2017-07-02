@@ -6,12 +6,12 @@ const pure = {
         pure_control_group: "pure-control-group"
     },
     button: {
-        pure_button: "pure-button",
-        pure_button_primary: "pure-button-primary",
-        pure_button_success: "pure-button-success",
-        pure_button_error: "pure-button-error",
-        pure_button_warning: "pure-button-warning",
-        pure_button_secondary: "pure-button-secondary"
+        button: "pure-button",
+        primary: "pure-button-primary",
+        success: "pure-button-success",
+        error: "pure-button-error",
+        warning: "pure-button-warning",
+        secondary: "pure-button-secondary"
     },
     menu: {
         menu: 'pure-menu',

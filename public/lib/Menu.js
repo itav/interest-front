@@ -10,6 +10,7 @@ Itav.Components.Menu = Object.assign(Object.create({}), {
     elements: [],
     heading: null,
     domElement: null,
+    isBuilt: false,
     addElement(elem){
         this.elements.push(elem);
         return this;
@@ -24,13 +25,10 @@ Itav.Components.Menu = Object.assign(Object.create({}), {
         return this;
     },
     build(){
-        const wrap = document.createElement('div');
-        const div = wrap.cloneNode(false);
-        wrap.id = 'menu';
+        const div = document.createElement('div');
         div.classList.add(pure.menu.menu);
-        wrap.appendChild(div);
-        if(this.heading){
-            const a = Object.create(Link)
+        if (this.heading) {
+            const a = Object.create(Link);
             a.createLink(this.heading.link, this.heading.label, pure.menu.heading);
             div.appendChild(a.domElement);
         }
@@ -42,19 +40,30 @@ Itav.Components.Menu = Object.assign(Object.create({}), {
             const li = document.createElement('li');
             li.classList.add(pure.menu.item);
             const ln = Object.create(Link);
-            ln.createLink(elem.link, elem.label, pure.menu.link);
+            ln.createLink(elem.link, elem.label, pure.menu.link, elem.anchor);
             li.appendChild(ln.domElement);
             ul.appendChild(li);
         });
-        this.domElement = wrap;
+        this.domElement = div;
+        this.isBuilt = true;
+        return this;
     }
 
 });
 
+Itav.Components.Menu.sideMenu = Object.create(Itav.Components.Menu);
+Itav.Components.Menu.getSideMenu = function getSideMenu() {
+    if (!this.sideMenu.isBuilt) {
+        this.sideMenu.build();
+    }
+    return this.sideMenu;
+};
+
 Itav.Components.Menu.Element = Object.assign(Object.create(null), {
 
-    link:'',
-    label:'',
+    link: '',
+    label: '',
+    anchor: null,
 
     setLink(link){
         this.link = link;
@@ -63,8 +72,11 @@ Itav.Components.Menu.Element = Object.assign(Object.create(null), {
     setLabel(label){
         this.label = label;
         return this;
+    },
+    setAnchor(anchor){
+        this.anchor = anchor;
+        return this;
     }
 });
-
 const Menu = Itav.Components.Menu;
 const MenuElement = Itav.Components.Menu.Element;

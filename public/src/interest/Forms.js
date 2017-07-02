@@ -62,6 +62,7 @@ Src.Interest.Forms.create = function create(model) {
 
 
     form
+        .setId('myForm')
         .setAction('/result')
         .addElement(dateFrom)
         .addElement(dateTo)

@@ -12,15 +12,28 @@ if (!Src.hasOwnProperty('Interest')) {
 Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
 
     index(){
+        const layout = Layout.getSomeLayout();
+        const interestForm = Src.Interest.Forms.getInterestForm(model, false);
+        interestForm.domElement.addEventListener('submit', function () {
+            App.run('/preload', layout.content);
+            Ajax.post('/result', $(interestForm.domElement).serialize(), interestForm.enctype).then(
+                function (result) {
+                    model = result;
+                    App.run('/result', layout.content);
+                },
+                function (error) {
+                    App.run('error', layout.content);
+                }
+            );
+        }, false);
+
         return function view(anchor) {
-            const lnCalc = Object.create(Link);
-            const lnPage = Object.create(Link);
-            const interestForm = Src.Interest.Forms.getInterestForm(model);
             anchor.innerHTML = '';
-            interestForm.render(anchor);
-            lnCalc.createLink('/result', 'calc', `${pure.button.pure_button} ${pure.button.pure_button_success}`).render(anchor);
-            lnPage.createLink('/page', 'page', `${pure.button.pure_button} ${pure.button.pure_button_primary}`).render(anchor);
-            return anchor;
+            App.run('/layout/side/menu/layout', anchor);
+            layout.content.innerHTML = '';
+            interestForm.render(layout.content);
+            App.run('/period/bar/rates', layout.content);
+            return layout.content;
         }
     },
 
@@ -33,7 +46,7 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
             div2.appendChild(delBtn);
             anchor.appendChild(div2);
             delBtn.addEventListener('click', function () {
-               anchor.removeChild(div2);
+                anchor.removeChild(div2);
             });
             return anchor;
         }
@@ -46,35 +59,50 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
             anchor.innerHTML = '';
             interestForm.render(anchor);
             lnCalc.createLink('/', 'home').render(anchor);
-            addBtn.createLink('/period/add', 'add period', `${pure.button.pure_button_primary}`).render(anchor);
+            addBtn.createLink('/period/add', 'add period', `${pure.button.primary}`).render(anchor);
             const div = document.createElement('div');
             const btn = document.createElement('button');
             btn.appendChild(document.createTextNode('add elem'));
             anchor.appendChild(btn);
-            btn.addEventListener('click', function() {anchor.appendChild(App.run('/period/add', div));})
+            btn.addEventListener('click', function () {
+                anchor.appendChild(App.run('/period/add', div));
+            });
             //anchor.appendChild(App.run('/result', div));
             return anchor;
         }
     },
 
     result(){
-
-        let template = ` 
-            <p>Amount: ${model.amount}</p>
-            <p>Rate: ${model.rate}</p>
-            <p>Days: ${model.days}</p>
-            <p>TotalInterest: ${model.totalInterest}</p>
-         `;
+        const back = Object.create(Link).createLink('/', 'home', pure.button.button);
 
         return function view(anchor) {
+            anchor.innerHTML = ` 
+                <p>Amount: ${model.amount}</p>
+                <p>Rate: ${model.rate}</p>
+                <p>Days: ${model.days}</p>
+                <p>TotalInterest: ${model.totalInterest}</p>
+             `;
+            back.render(anchor);
+            return anchor;
+        }
+    },
 
-            anchor.innerHTML = template;
-            const back = Object.create(Link);
-            const login = Object.create(Link);
-            const logout = Object.create(Link);
-            back.createLink('/', 'home').render(anchor);
-            login.createLink('/auth/login', 'login', pure.button.pure_button_primary).render(anchor);
-            logout.createLink('/auth/logout', 'logout', pure.button.pure_button_primary).render(anchor);
+    periodBar(){
+        return function view(anchor) {
+            const canvas = document.createElement('canvas');
+            canvas.id = 'ratesBar';
+            canvas.setAttribute('height', '70');
+            canvas.setAttribute('width', '600');
+            const ctx = canvas.getContext('2d');
+
+            //const rect = ctx.rect(0,0,150,70);
+            ctx.fillStyle = '#ff5353';
+            ctx.fillRect(0,0,150,40);
+            ctx.fillStyle = '#4155ff';
+            ctx.fillRect(151,0,300,40);
+            ctx.fillStyle = '#7cff3f';
+            ctx.fillRect(301,0,450,40);
+            anchor.appendChild(canvas);
             return anchor;
         }
     },
@@ -88,27 +116,6 @@ Src.Interest.Controller = Object.assign(Object.create(Src.Interest), {
             back.createLink('/', 'home').render(anchor);
             return anchor;
         }
-    },
-
-    preload(){
-
-        let template = `IIIIIIIIIIIIIII:::::::::::AMMMMMMMMMMM:::LOADING`;
-        return function view(anchor) {
-            anchor.innerHTML = template;
-            const back = Object.create(Link);
-            back.createLink('/', 'home').render(anchor);
-            return anchor;
-        }
     }
-
 });
 
-const model = Object.create(InterestModel);
-model
-    .setType(1)
-    .setRate(10.00)
-    .setAmount(453.00)
-    .setDateFrom(new Date())
-    .setDateTo(new Date())
-    .setDays(50)
-    .setTotalInterest(3.56);

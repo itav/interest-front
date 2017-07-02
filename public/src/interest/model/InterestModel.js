@@ -80,3 +80,6 @@ Object.defineProperty(
         }
     }
 );
+
+let model = Object.create(InterestModel);
+
